@@ -2,6 +2,8 @@
 
 ### CONSULTAS BASICAS 
 
+--CONSULTAS BASICAS--
+
 1. SELECT codigo_oficina, ciudad FROM Oficina
 
 2. SELECT Ciudad, telefono FROM Oficina WHERE Pais = 'Espana';
@@ -26,4 +28,31 @@
 '2008-01-01' AND '2008-12-31'
 AND forma_pago = 'PayPal'ORDER BY total DESC;
 
-12. 
+12. SELECT DISTINCT forma_pago FROM pago;
+
+13. SELECT nombre, gama, stock FROM producto WHERE stock > 100 ORDER BY stock DESC;
+
+14. SELECT nombre_cliente, ciudad, codigo_empleados FROM Cliente WHERE ciudad = 'Madrid' AND codigo_empleados = 11 OR codigo_empleados = 30; 
+
+--CONSULTAS MULTITABLAS--
+
+1. SELECT c.nombre_cliente, e.nombre AS 'Nombre Representante', e.apellido AS 'Apellido Representante' FROM Cliente c JOIN empleado e ON c.codigo_empleados = e.codigo_empleado; 
+
+2. SELECT DISTINCT c.nombre_cliente, e.nombre AS 'Nombre Representante', e.apellido AS 'Apellido Representante' FROM Cliente c INNER JOIN pago p ON c.codigo_cliente = p.codigo_cliente INNER JOIN empleado e ON c.codigo_empleados = e.codigo_empleado;
+
+3. SELECT c.nombre_cliente, e.nombre AS 'Nombre Representante', e.apellido AS 'Apellido Representante' FROM Cliente c INNER JOIN empleado e ON c.codigo_empleados = e.codigo_empleado LEFT JOIN pago p ON c.codigo_cliente = p.codigo_cliente WHERE p.codigo_cliente IS NULL;
+
+4. SELECT DISTINCT c.nombre_cliente, e.nombre AS 'Nombre Representante', e.apellido AS 'Apellido Representante', o.ciudad AS ciudad_oficina
+FROM Cliente c INNER JOIN pago p ON c.codigo_cliente = p.codigo_cliente INNER JOIN empleado e ON c.codigo_empleados = e.codigo_empleado INNER JOIN Oficina o ON e.codigo_oficina = o.codigo_oficina;
+
+5. SELECT DISTINCT o.direccion1, o.direccion2, o.Ciudad AS Ciudad FROM Oficina o INNER JOIN empleado e ON o.codigo_oficina = e.codigo_oficina INNER JOIN Cliente c ON e.codigo_empleado = c.codigo_empleados WHERE c.ciudad = 'Fuenlabrada';
+
+6. SELECT e.nombre AS 'Nombre Empleado', e.apellido AS 'Apellido Empleado', j.nombre AS 'Nombre Jefe', j.apellido AS 'Apellido Jefe' FROM empleado e LEFT JOIN empleado j ON e.codigo_jefe = j.codigo_empleado;
+
+7. SELECT e.nombre AS 'Empleado', j.nombre AS 'Jefe', gj.nombre AS 'Jefe del Jefe' FROM empleado e LEFT JOIN empleado j ON e.codigo_jefe = j.codigo_empleado LEFT JOIN empleado gj ON j.codigo_jefe = gj.codigo_empleado;
+
+8. SELECT DISTINCT c.nombre_cliente, p.codigo_pedido, p.Fecha_esperado, p.Fecha_entrega FROM Cliente c INNER JOIN Pedido p ON c.codigo_cliente = p.codigo_cliente WHERE p.Fecha_entrega > p.Fecha_esperado;
+
+9. SELECT DISTINCT c.nombre_cliente, p.gama FROM Cliente c JOIN Pedido pe ON c.codigo_cliente = pe.codigo_cliente JOIN detalle_pedido dp ON pe.codigo_pedido = dp.codigo_pedido JOIN producto p ON dp.codigo_producto = p.codigo_producto;
+
+--CONSULTAS DE CONJUNTOS (SUBCONSULTAS)--
