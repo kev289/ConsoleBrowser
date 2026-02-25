@@ -56,3 +56,20 @@ FROM Cliente c INNER JOIN pago p ON c.codigo_cliente = p.codigo_cliente INNER JO
 9. SELECT DISTINCT c.nombre_cliente, p.gama FROM Cliente c JOIN Pedido pe ON c.codigo_cliente = pe.codigo_cliente JOIN detalle_pedido dp ON pe.codigo_pedido = dp.codigo_pedido JOIN producto p ON dp.codigo_producto = p.codigo_producto;
 
 --CONSULTAS DE CONJUNTOS (SUBCONSULTAS)--
+
+1. SELECT nombre_cliente, telefono_contacto FROM Cliente WHERE codigo_cliente NOT IN (SELECT DISTINCT codigo_cliente FROM pago);
+
+2. SELECT codigo_cliente, nombre_cliente, telefono_contacto, ciudad FROM Cliente WHERE codigo_cliente NOT IN (SELECT DISTINCT codigo_cliente
+FROM Pedido);
+
+3. SELECT codigo_cliente, nombre_cliente, telefono_contacto, ciudad FROM Cliente WHERE codigo_cliente NOT IN (SELECT codigo_cliente FROM Pedido) AND codigo_cliente NOT IN (SELECT codigo_cliente FROM pago);
+
+4. SELECT nombre, apellido, puesto FROM empleado WHERE codigo_oficina NOT IN (SELECT codigo_oficina FROM Oficina);
+
+5. SELECT nombre, apellido, puesto, email FROM empleado WHERE codigo_empleado NOT IN (SELECT DISTINCT codigo_empleados FROM Cliente WHERE codigo_empleados IS NOT NULL);
+
+6. SELECT e.nombre, e.apellido, e.puesto, o.ciudad, o.direccion1 AS 'Dirección Oficina' FROM empleado e JOIN Oficina o ON e.codigo_oficina = o.codigo_oficina WHERE e.codigo_empleado NOT IN (SELECT DISTINCT codigo_empleados FROM Cliente WHERE codigo_empleados IS NOT NULL);
+
+7. SELECT nombre, gama, stock, precio_venta FROM producto WHERE codigo_producto NOT IN (SELECT DISTINCT codigo_producto FROM detalle_pedido);
+
+8. 
